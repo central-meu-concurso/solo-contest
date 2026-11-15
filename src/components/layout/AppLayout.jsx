@@ -165,7 +165,7 @@ export default function AppLayout() {
       </aside>
 
       <main className="flex-1 min-w-0 min-h-screen overflow-x-clip">
-        <header className="sticky top-0 z-30 glass-card border-b border-border/30 px-4 py-3 lg:hidden flex items-center gap-3 select-none safe-top">
+        <header className="sticky top-0 z-30 !bg-background !backdrop-blur-none border-b border-border/30 px-4 py-3 lg:hidden flex items-center gap-3 select-none safe-top">
           {isNested ? (
             <button onClick={handleBack} className="p-2 rounded-lg hover:bg-muted/50 touch-target" aria-label="Voltar">
               <ArrowLeft className="w-5 h-5" />
@@ -190,7 +190,7 @@ export default function AppLayout() {
 
         {/* Barra de navegação inferior (mobile/tablet) — oculta em rotas filhas */}
         {!isNested && (
-        <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 glass-card border-t border-border/50 flex items-stretch justify-around select-none safe-bottom">
+        <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 !bg-background !backdrop-blur-none border-t border-border/50 flex items-stretch justify-around select-none safe-bottom">
           {bottomNavItems.map(item => {
             const isActive = isPathActive(item.path);
             return (

@@ -168,9 +168,15 @@ html, body {
   -webkit-overflow-scrolling: auto;
 }
 
+/* Os respiros das barras do sistema (relógio/bateria e botões do Android) são
+   aplicados só no cabeçalho (.safe-top) e na barra inferior (.safe-bottom),
+   para não duplicar o espaço e deixar o fundo preencher a tela inteira. */
+html {
+  background-color: hsl(var(--background));
+}
 body {
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
+  min-height: 100vh;
+  min-height: 100dvh;
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
