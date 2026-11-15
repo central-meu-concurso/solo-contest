@@ -4,6 +4,10 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/lib/AuthContext';
 import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import {
   LayoutDashboard, BookOpen, Library, RotateCcw,
   HelpCircle, BarChart3, Settings, Menu, Swords, LogOut, Bookmark, Database, Home as HomeIcon, ArrowLeft, Sun, Moon
 } from 'lucide-react';
@@ -37,6 +41,7 @@ export default function AppLayout() {
 
   const { isDark, toggleTheme } = useTheme();
   const { user, isCloud, signOut } = useAuth();
+  const [confirmLogout, setConfirmLogout] = useState(false);
 
   // Preserva a posição de rolagem por aba
   useEffect(() => {
@@ -150,7 +155,7 @@ export default function AppLayout() {
           {isCloud && (
             <>
               {user?.email && <p className="px-4 pt-1 text-[11px] text-muted-foreground truncate" title={user.email}>{user.email}</p>}
-              <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-all w-full touch-target">
+              <button onClick={() => setConfirmLogout(true)} className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-all w-full touch-target">
                 <LogOut className="w-4 h-4" />
                 Sair
               </button>
@@ -204,6 +209,26 @@ export default function AppLayout() {
         </nav>
         )}
       </main>
+
+      <AlertDialog open={confirmLogout} onOpenChange={setConfirmLogout}>
+        <AlertDialogContent className="bg-card border-border/50 text-foreground">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tem certeza que deseja sair?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Você precisará entrar novamente para acessar seus estudos neste aparelho.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => { setConfirmLogout(false); handleLogout(); }}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Sair
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
