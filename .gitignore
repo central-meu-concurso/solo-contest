@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-single
+dist-mock
+.env
+.env.local
+*.local
+.DS_Store

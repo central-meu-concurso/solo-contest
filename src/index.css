@@ -1,0 +1,212 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tema claro */
+    --background: 220 20% 96%;
+    --foreground: 230 25% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 230 25% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 25% 12%;
+    --primary: 220 90% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 60% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 14% 92%;
+    --muted-foreground: 230 10% 42%;
+    --accent: 268 60% 95%;
+    --accent-foreground: 268 60% 38%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 86%;
+    --input: 220 13% 82%;
+    --ring: 220 90% 52%;
+    --chart-1: 220 85% 48%;
+    --chart-2: 270 55% 50%;
+    --chart-3: 160 60% 38%;
+    --chart-4: 45 90% 45%;
+    --chart-5: 340 70% 48%;
+    --radius: 0.75rem;
+    --font-heading: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 230 25% 15%;
+    --sidebar-primary: 220 90% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 93%;
+    --sidebar-accent-foreground: 230 25% 15%;
+    --sidebar-border: 220 13% 86%;
+    --sidebar-ring: 220 90% 52%;
+  }
+
+  .dark {
+    /* Tema escuro */
+    --background: 230 15% 8%;
+    --foreground: 220 20% 95%;
+    --card: 230 15% 12%;
+    --card-foreground: 220 20% 95%;
+    --popover: 230 15% 12%;
+    --popover-foreground: 220 20% 95%;
+    --primary: 220 90% 56%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 60% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 230 15% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 270 60% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 230 15% 20%;
+    --input: 230 15% 20%;
+    --ring: 220 90% 56%;
+    --chart-1: 220 90% 56%;
+    --chart-2: 270 60% 55%;
+    --chart-3: 160 60% 45%;
+    --chart-4: 45 90% 55%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.75rem;
+    --font-heading: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 230 15% 10%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 220 90% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 15% 16%;
+    --sidebar-accent-foreground: 220 20% 90%;
+    --sidebar-border: 230 15% 20%;
+    --sidebar-ring: 220 90% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+/* Glassmorphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99, 140, 255, 0.18);
+}
+
+.dark .glass-card {
+  background: rgba(20, 24, 40, 0.6);
+  border: 1px solid rgba(99, 140, 255, 0.12);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(99, 140, 255, 0.3);
+  box-shadow: 0 0 20px rgba(99, 140, 255, 0.08);
+}
+
+/* Neon glow */
+.neon-blue {
+  text-shadow: 0 0 10px rgba(99, 140, 255, 0.5), 0 0 20px rgba(99, 140, 255, 0.3);
+}
+
+.neon-purple {
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Progress bar glow */
+.progress-glow-blue {
+  box-shadow: 0 0 8px rgba(99, 140, 255, 0.4), 0 0 16px rgba(99, 140, 255, 0.2);
+}
+
+.progress-glow-purple {
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4), 0 0 16px rgba(139, 92, 246, 0.2);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(220 20% 93%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(220 13% 75%);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(220 90% 52%);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: hsl(230 15% 10%);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(230 15% 25%);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(220 90% 56%);
+}
+
+/* Safe area + WebView scroll control */
+html, body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: auto;
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Hide custom scrollbars on touch / small screens */
+@media (pointer: coarse), (max-width: 1023px) {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  * {
+    scrollbar-width: none;
+  }
+}
+
+/* Minimum touch target on small screens */
+@media (max-width: 1023px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Disable text selection on structural controls */
+button, [role="tab"], [role="tablist"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Prevent text highlighting during rapid taps on navigation, icons and cards */
+nav a, nav button, [role="tab"], svg, .glass-card {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
