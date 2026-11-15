@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { api } from '@/api/client';
 import moment from 'moment';
-import { Database, Download, RotateCcw, Plus, Loader2, HardDriveDownload, Trash2 } from 'lucide-react';
+import { Database, Download, RotateCcw, Plus, Loader2, HardDriveDownload, Trash2, Upload } from 'lucide-react';
 import GlassCard from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +20,9 @@ export default function Backups() {
   const [restoring, setRestoring] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const fileRef = useRef(null);
+  const [importTarget, setImportTarget] = useState(null); // { snap, name, count }
+  const [importing, setImporting] = useState(false);
 
   const load = async () => {
     const list = await api.entities.Backup.list('-created_date', 100);
@@ -101,6 +104,39 @@ export default function Backups() {
     setRestoring(false);
   };
 
+  // Importa um arquivo .json baixado de outro lugar (por exemplo, do app antigo)
+  const SNAP_KEYS = ['StudyPlan', 'Subject', 'Topic', 'StudySession', 'Review', 'ReviewLog', 'QuestionLog', 'StudyMaterial', 'UserStats'];
+  const handlePickFile = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      let snap = JSON.parse(await file.text());
+      if (snap && !Array.isArray(snap.StudyPlan) && snap.data && typeof snap.data === 'object') snap = snap.data;
+      const keys = SNAP_KEYS.filter((k) => Array.isArray(snap?.[k]));
+      if (!keys.length) throw new Error('formato');
+      const count = keys.reduce((n, k) => n + snap[k].length, 0);
+      setImportTarget({ snap, name: file.name, count, plans: (snap.StudyPlan || []).length });
+    } catch {
+      alert('Esse arquivo não parece ser um backup do Solo Contest. Escolha o arquivo .json baixado na tela de Backups do app antigo.');
+    }
+  };
+
+  const handleImport = async () => {
+    if (!importTarget) return;
+    setImporting(true);
+    try {
+      await restoreSnapshot(importTarget.snap);
+      setImportTarget(null);
+      await load();
+      alert('Backup importado! Seus planos, matérias e histórico já estão no app.');
+    } catch (err) {
+      console.error(err);
+      alert('Não foi possível importar o backup: ' + (err?.message || 'erro desconhecido'));
+    }
+    setImporting(false);
+  };
+
   const handleDelete = async () => {
     if (!deleteTarget) return;
     setDeleting(true);
@@ -125,9 +161,15 @@ export default function Backups() {
           <h1 className="text-2xl font-display font-bold">Backups</h1>
           <p className="text-sm text-muted-foreground mt-1">Snapshots dos seus dados de estudo</p>
         </div>
-        <Button onClick={handleCreateNow} disabled={creating} className="bg-blue-600 hover:bg-blue-700">
-          {creating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Criando...</> : <><Plus className="w-4 h-4 mr-2" /> Backup agora</>}
-        </Button>
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          <input ref={fileRef} type="file" accept=".json,application/json" className="hidden" onChange={handlePickFile} data-testid="import-file" />
+          <Button variant="outline" onClick={() => fileRef.current?.click()} className="border-border/50">
+            <Upload className="w-4 h-4 mr-2" /> Importar arquivo
+          </Button>
+          <Button onClick={handleCreateNow} disabled={creating} className="bg-blue-600 hover:bg-blue-700">
+            {creating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Criando...</> : <><Plus className="w-4 h-4 mr-2" /> Backup agora</>}
+          </Button>
+        </div>
       </div>
 
       <GlassCard className="border-blue-500/20 bg-blue-500/5">
@@ -194,6 +236,27 @@ export default function Backups() {
               className="bg-blue-600 hover:bg-blue-700"
             >
               {restoring ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Restaurando...</> : 'Restaurar'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={!!importTarget} onOpenChange={() => !importing && setImportTarget(null)}>
+        <AlertDialogContent className="bg-card border-border/50 text-foreground">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Importar "{importTarget?.name}"?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Vamos criar {importTarget?.count || 0} registros ({importTarget?.plans || 0} plano(s) de estudo com matérias, assuntos, sessões, revisões e o que mais estiver no arquivo) na sua conta. Seus dados atuais não são apagados, mas se você já tiver os mesmos dados aqui, eles ficarão duplicados. Importe uma vez só e espere terminar.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={importing}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => { e.preventDefault(); handleImport(); }}
+              disabled={importing}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {importing ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Importando...</> : 'Importar'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
