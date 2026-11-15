@@ -6,24 +6,24 @@ import { fmt, fmtFull } from './fmt';
 
 function Row({ title, sub, t }) {
   return (
-    <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-x-3 sm:gap-x-5 rounded-lg bg-muted/20 py-2.5 px-3">
+    <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] items-center gap-x-3 sm:gap-x-5 rounded-lg bg-muted/20 py-2.5 px-3">
       <div className="min-w-0">
         <p className="text-sm font-medium truncate">{title}</p>
         {sub && <p className="text-[10px] text-muted-foreground truncate">{sub}</p>}
       </div>
-      <span className="text-xs w-14 text-right">{fmt(t.rToday)}</span>
-      <span className="text-xs w-14 text-right">{fmt(t.rMonth)}</span>
-      <span className="text-xs w-16 text-right font-display text-purple-400">{fmt(t.rTotal)}</span>
+      <span className="text-xs w-12 sm:w-14 text-right">{fmt(t.rToday)}</span>
+      <span className="text-xs w-12 sm:w-14 text-right">{fmt(t.rMonth)}</span>
+      <span className="text-xs w-14 sm:w-16 text-right font-display text-purple-400">{fmt(t.rTotal)}</span>
     </div>
   );
 }
 
 const Head = ({ first }) => (
-  <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 sm:gap-x-5 px-3 text-[10px] text-muted-foreground">
+  <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-x-3 sm:gap-x-5 px-3 text-[10px] text-muted-foreground">
     <span>{first}</span>
-    <span className="w-14 text-right">Hoje</span>
-    <span className="w-14 text-right">No mês</span>
-    <span className="w-16 text-right">Total</span>
+    <span className="w-12 sm:w-14 text-right">Hoje</span>
+    <span className="w-12 sm:w-14 text-right">No mês</span>
+    <span className="w-14 sm:w-16 text-right">Total</span>
   </div>
 );
 
@@ -38,7 +38,7 @@ export default function ReviewStats({ kpis, subjects, unknown }) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-3">
         <StatBox icon={Clock} color="purple" label="Hoje" value={fmtFull(kpis.reviewToday)} />
         <StatBox icon={CalendarDays} color="purple" label="No mês" value={fmtFull(kpis.reviewMonth)} />
         <StatBox icon={Hourglass} color="purple" label="Total" value={fmtFull(kpis.reviewTotal)} />

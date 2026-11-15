@@ -23,14 +23,14 @@ function ReviewLine({ s }) {
 
 function TopicRow({ name, t, muted }) {
   return (
-    <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-x-3 sm:gap-x-5 rounded-lg bg-muted/20 py-2.5 px-3">
+    <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] items-center gap-x-3 sm:gap-x-5 rounded-lg bg-muted/20 py-2.5 px-3">
       <div className="min-w-0">
         <p className={`text-sm truncate ${muted ? 'text-muted-foreground italic' : 'font-medium'}`}>{name}</p>
         {t.rTotal > 0 && <p className="text-[10px] text-purple-400">revisão: {fmtFull(t.rTotal)}</p>}
       </div>
-      <span className="text-xs w-14 text-right">{fmt(t.today)}</span>
-      <span className="text-xs w-14 text-right">{fmt(t.month)}</span>
-      <span className="text-xs w-16 text-right font-display text-blue-400">{fmt(t.total)}</span>
+      <span className="text-xs w-12 sm:w-14 text-right">{fmt(t.today)}</span>
+      <span className="text-xs w-12 sm:w-14 text-right">{fmt(t.month)}</span>
+      <span className="text-xs w-14 sm:w-16 text-right font-display text-blue-400">{fmt(t.total)}</span>
     </div>
   );
 }
@@ -81,11 +81,11 @@ export default function SubjectStats({ subjects, unknown, colorOf, hasPlans }) {
             <p className="text-xs text-muted-foreground text-center py-6">Esta matéria ainda não tem assuntos cadastrados.</p>
           ) : (
             <div className="space-y-1.5">
-              <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 sm:gap-x-5 px-3 text-[10px] text-muted-foreground">
+              <div className="grid grid-cols-[minmax(0,1fr)_auto_auto_auto] gap-x-3 sm:gap-x-5 px-3 text-[10px] text-muted-foreground">
                 <span>Assunto</span>
-                <span className="w-14 text-right">Hoje</span>
-                <span className="w-14 text-right">No mês</span>
-                <span className="w-16 text-right">Total</span>
+                <span className="w-12 sm:w-14 text-right">Hoje</span>
+                <span className="w-12 sm:w-14 text-right">No mês</span>
+                <span className="w-14 sm:w-16 text-right">Total</span>
               </div>
               {topics.map((t) => <TopicRow key={t.id} name={t.name} t={t} />)}
               {hasLoose && <TopicRow name="Sem assunto específico" t={selected.loose} muted />}

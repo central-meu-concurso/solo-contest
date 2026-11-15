@@ -20,7 +20,7 @@ export default function StatBox({ icon: Icon, label, value, sub, color = 'blue' 
         )}
         <div className="flex-1 min-w-0">
           <p className="text-xs text-muted-foreground mb-1">{label}</p>
-          <p className="text-xl font-bold font-display">{value}</p>
+          <p className="text-xl font-bold font-display break-words">{value}</p>
           {sub && <p className="text-xs text-muted-foreground mt-0.5">{sub}</p>}
         </div>
       </div>
