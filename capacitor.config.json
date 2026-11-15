@@ -1,5 +1,5 @@
 {
-  "appId": "app.solocontest.estudos",
+  "appId":"com.solocontest.myapp",
   "appName": "Solo Contest",
   "webDir": "dist",
   "android": {

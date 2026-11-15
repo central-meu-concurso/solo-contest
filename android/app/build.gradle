@@ -4,7 +4,7 @@ android {
     namespace = "app.solocontest.estudos"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "app.solocontest.estudos"
+        applicationId "com.solocontest.myapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode (System.getenv("VERSION_CODE") ? System.getenv("VERSION_CODE").toInteger() : 1)
