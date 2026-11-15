@@ -159,7 +159,7 @@ export default function AppLayout() {
         </div>
       </aside>
 
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1 min-w-0 min-h-screen overflow-x-clip">
         <header className="sticky top-0 z-30 glass-card border-b border-border/30 px-4 py-3 lg:hidden flex items-center gap-3 select-none safe-top">
           {isNested ? (
             <button onClick={handleBack} className="p-2 rounded-lg hover:bg-muted/50 touch-target" aria-label="Voltar">

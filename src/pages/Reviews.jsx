@@ -44,14 +44,14 @@ export default function Reviews() {
 
   const ReviewCard = ({ review, isOverdue }) => (
     <GlassCard className={`${isOverdue ? 'border-red-500/20' : ''}`}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             {isOverdue && <AlertTriangle className="w-3.5 h-3.5 text-red-400" />}
-            <p className="font-semibold text-sm">{review.topic_name}</p>
+            <p className="font-semibold text-sm break-words">{review.topic_name}</p>
           </div>
           <p className="text-xs text-muted-foreground">{review.subject_name}</p>
-          <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-muted-foreground">
             <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {moment(review.due_date).format('DD/MM/YYYY')}</span>
             <span className="flex items-center gap-1"><RotateCcw className="w-3 h-3" /> {review.review_number}ª revisão</span>
           </div>
@@ -60,7 +60,7 @@ export default function Reviews() {
           )}
         </div>
         {!review.completed && (
-          <Button onClick={() => completeReview(review)} size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+          <Button onClick={() => completeReview(review)} size="sm" className="bg-emerald-600 hover:bg-emerald-700 shrink-0">
             <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Concluir
           </Button>
         )}
@@ -87,14 +87,14 @@ export default function Reviews() {
       )}
 
       <Tabs defaultValue="pending" className="w-full">
-        <TabsList className="bg-muted/30 border border-border/30 w-full justify-start">
-          <TabsTrigger value="pending" className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
+        <TabsList className="bg-muted/30 border border-border/30 w-full grid grid-cols-3 h-auto">
+          <TabsTrigger value="pending" className="px-1 sm:px-3 text-xs sm:text-sm min-w-0 data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
             Pendentes ({overdue.length + todayReviews.length})
           </TabsTrigger>
-          <TabsTrigger value="upcoming" className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
+          <TabsTrigger value="upcoming" className="px-1 sm:px-3 text-xs sm:text-sm min-w-0 data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
             Próximas ({upcoming.length})
           </TabsTrigger>
-          <TabsTrigger value="done" className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
+          <TabsTrigger value="done" className="px-1 sm:px-3 text-xs sm:text-sm min-w-0 data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-400">
             Concluídas ({completed.length})
           </TabsTrigger>
         </TabsList>
@@ -135,8 +135,8 @@ export default function Reviews() {
               <GlassCard key={r.id}>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <div>
-                    <p className="text-sm font-medium">{r.topic_name}</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium break-words">{r.topic_name}</p>
                     <p className="text-xs text-muted-foreground">{r.subject_name} · {r.review_number}ª revisão · {moment(r.completed_date).format('DD/MM/YYYY')}</p>
                   </div>
                 </div>
