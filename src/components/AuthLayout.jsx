@@ -22,6 +22,11 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
         {footer && (
           <p className="text-center text-sm text-muted-foreground mt-6">{footer}</p>
         )}
+        <p className="text-center text-xs text-muted-foreground mt-4 space-x-3">
+          <a href="privacidade.html" className="hover:underline">Política de privacidade</a>
+          <span aria-hidden="true">·</span>
+          <a href="excluir-conta.html" className="hover:underline">Excluir conta</a>
+        </p>
       </div>
     </div>
   );

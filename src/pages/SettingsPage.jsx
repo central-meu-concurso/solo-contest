@@ -155,6 +155,11 @@ export default function SettingsPage() {
           <p><strong className="text-foreground">Solo Contest</strong> — Assistente inteligente de estudos para concursos públicos.</p>
           <p>Sistema de ciclo de estudos rotativo, revisões espaçadas inteligentes e análise de desempenho com gamificação.</p>
           <p className="text-xs">Versão 1.0</p>
+          <p className="text-xs">
+            <a href="privacidade.html" target="_blank" rel="noreferrer" className="text-primary hover:underline">Política de privacidade</a>
+            <span className="mx-2" aria-hidden="true">·</span>
+            <a href="excluir-conta.html" target="_blank" rel="noreferrer" className="text-primary hover:underline">Como excluir a conta</a>
+          </p>
         </div>
       </GlassCard>
 
