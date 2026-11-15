@@ -1,0 +1,11 @@
+{
+  "appId": "app.solocontest.estudos",
+  "appName": "Solo Contest",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

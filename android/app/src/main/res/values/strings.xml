@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Solo Contest</string>
+    <string name="title_activity_main">Solo Contest</string>
+    <string name="package_name">app.solocontest.estudos</string>
+    <string name="custom_url_scheme">app.solocontest.estudos</string>
+</resources>

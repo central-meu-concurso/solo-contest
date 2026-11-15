@@ -1,4 +1,6 @@
 import { supabase } from '@/api/supabase';
+import { Browser } from '@capacitor/browser';
+import { isNative, APP_LOGIN_URL, WEB_URL } from '@/lib/native';
 
 // Traduz as mensagens de erro do Supabase para português.
 export function friendlyError(err) {
@@ -16,7 +18,7 @@ export function friendlyError(err) {
   return err?.message || 'Algo deu errado. Tente novamente.';
 }
 
-const siteUrl = () => window.location.origin + window.location.pathname;
+const siteUrl = () => (isNative ? WEB_URL : window.location.origin + window.location.pathname);
 
 export async function signInWithPassword(email, password) {
   const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
@@ -62,6 +64,16 @@ export async function resetPasswordWithCode(email, code, newPassword) {
 }
 
 export async function signInWithGoogle() {
+  if (isNative) {
+    // O Google bloqueia login dentro do app (WebView). Abrimos o navegador do celular e voltamos por solocontest://auth.
+    const { data, error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: APP_LOGIN_URL, skipBrowserRedirect: true },
+    });
+    if (oauthError) throw oauthError;
+    await Browser.open({ url: data.url });
+    return;
+  }
   const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: siteUrl() } });
   if (error) throw error;
 }

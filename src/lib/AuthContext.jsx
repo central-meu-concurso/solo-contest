@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase, hasSupabase } from '@/api/supabase';
 import * as actions from '@/lib/authActions';
+import { App as CapApp } from '@capacitor/app';
+import { Browser } from '@capacitor/browser';
+import { isNative, APP_LOGIN_URL } from '@/lib/native';
 
 const AuthContext = createContext(null);
 
@@ -21,9 +24,26 @@ export function AuthProvider({ children }) {
       setLoading(false);
     });
     const { data } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
+
+    // Android: o login do Google termina no navegador e volta ao app por solocontest://auth?code=...
+    let urlListener = null;
+    if (isNative) {
+      CapApp.addListener('appUrlOpen', async ({ url }) => {
+        if (!url || !url.startsWith(APP_LOGIN_URL)) return;
+        try {
+          const code = new URL(url).searchParams.get('code');
+          if (code) await supabase.auth.exchangeCodeForSession(code);
+        } catch (e) {
+          console.error('Falha ao concluir o login com Google', e);
+        }
+        try { await Browser.close(); } catch { /* o navegador do Android fecha sozinho */ }
+      }).then((h) => { urlListener = h; });
+    }
+
     return () => {
       active = false;
       data.subscription.unsubscribe();
+      urlListener?.remove();
     };
   }, []);
 

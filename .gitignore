@@ -6,3 +6,4 @@ dist-mock
 .env.local
 *.local
 .DS_Store
+dist-local
